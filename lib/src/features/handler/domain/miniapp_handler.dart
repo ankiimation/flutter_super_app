@@ -14,6 +14,8 @@ class MiniAppHandler {
   ) onMethodCall;
 
   MiniAppHandler({required this.onMethodCall});
+
+  
 }
 
 class MiniAppInvoker {

@@ -10,10 +10,12 @@ import 'package:webview_flutter/webview_flutter.dart';
 class MiniAppPageView extends StatefulWidget {
   final MiniAppConfigsModel configs;
   final String pageContent;
+  final GlobalKey<NavigatorState> navigatorState;
   const MiniAppPageView({
     Key? key,
     required this.configs,
     required this.pageContent,
+    required this.navigatorState,
   }) : super(key: key);
 
   @override
@@ -23,6 +25,8 @@ class MiniAppPageView extends StatefulWidget {
 class _MiniAppPageViewState extends State<MiniAppPageView> {
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
+
+  NavigatorState? get navigatorState => widget.navigatorState.currentState;
 
   @override
   Widget build(BuildContext context) {
@@ -48,13 +52,29 @@ class _MiniAppPageViewState extends State<MiniAppPageView> {
 
             final MiniAppInvoker invoker =
                 MiniAppInvoker(await _controller.future);
-            return SuperApp.instance.miniAppHandler?.onMethodCall(
-              context,
-              invoker,
-              widget.configs.appId,
-              method,
-              params,
-            );
+
+            switch (method) {
+              case 'push':
+                final routeName = MiniAppConfigsModel.getRouteName(
+                  widget.configs.appId,
+                  params,
+                );
+                navigatorState?.pushNamed(
+                  routeName,
+                );
+                break;
+              case 'pop':
+                navigatorState?.maybePop();
+                break;
+              default:
+                return SuperApp.instance.miniAppHandler?.onMethodCall(
+                  context,
+                  invoker,
+                  widget.configs.appId,
+                  method,
+                  params,
+                );
+            }
           },
         ),
       },

@@ -22,9 +22,9 @@ class MiniAppConfigsModel with _$MiniAppConfigsModel {
       _$MiniAppConfigsModelFromJson(json);
   const MiniAppConfigsModel._();
 
-  String get initialRoute => getRouteName(pageRoutes.first);
+  String get initialRoute => getRouteName(appId, pageRoutes.first);
 
-  String getRouteName(String pageRoute) {
-    return '$appId#$pageRoute';
+  static String getRouteName(String appId, String pageRoute) {
+    return '$appId.$pageRoute';
   }
 }
