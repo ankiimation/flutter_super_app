@@ -66,6 +66,10 @@ class _MiniAppPageViewState extends State<MiniAppPageView> {
               case 'pop':
                 navigatorState?.maybePop();
                 break;
+              case 'getUserInfo':
+              //TODO: check quyeen
+              //TODO:  Implement
+
               default:
                 return SuperApp.instance.miniAppHandler?.onMethodCall(
                   context,

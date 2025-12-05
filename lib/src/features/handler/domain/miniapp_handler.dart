@@ -1,6 +1,5 @@
 import 'package:dart_exporter_annotation/dart_exporter_annotation.dart';
 import 'package:flutter/material.dart';
-import 'package:super_app/super_app.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 @Export()
@@ -14,8 +13,6 @@ class MiniAppHandler {
   ) onMethodCall;
 
   MiniAppHandler({required this.onMethodCall});
-
-  
 }
 
 class MiniAppInvoker {
@@ -37,14 +34,3 @@ class MiniAppInvoker {
     return _controller.evaluateJavascript('handle("$method", "$data");');
   }
 }
-
-final _jsFunctions = ''' 
-function invoke(methodName, params){
-  ${SuperApp.instance.superAppName}.postMessage(`\${methodName}#\${params}`)
-}
-
-function handle(methodName, params){
-  alert(methodName + params);
-  return methodName + params;
-}
-''';
